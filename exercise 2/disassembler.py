@@ -3,6 +3,10 @@ from architecture import OPS
 
 
 class Disassembler:
+    def __init__(self, labels):
+        self.labels = labels
+        self.count = 1
+
     def disassemble(self, lines):
         disassembly_code = [self._compile(instr) for instr in lines]
         return disassembly_code
@@ -23,9 +27,13 @@ class Disassembler:
             reg2 = int(arg2, 16)
             return f"{code} R{str(reg1)} R{str(reg2)}"
         elif fmt == "rv":
-            if code == ("bne" or "beq"):
-                reg = int(arg1, 16)c
-                return f"{code} R{str(reg)}"
+            if code == "beq" or code == "bne":
+                reg = int(arg1, 16)
+                pos = int(arg2, 16)
+                label = "L" + str(self.count)
+                self.labels[label] = pos
+                self.count += 1
+                return f"{code} R{str(reg)} @{label}"
             else:
                 reg = int(arg1, 16)
                 value = int(arg2, 16)
@@ -37,16 +45,23 @@ class Disassembler:
                 return op_info["fmt"], name
 
 
-def main(disassembler_cls):
+def main():
     assert len(sys.argv) == 3, f"Usage: {sys.argv[0]} input|- output|-"
     reader = open(sys.argv[1], "r") if (sys.argv[1] != "-") else sys.stdin
     writer = open(sys.argv[2], "w") if (sys.argv[2] != "-") else sys.stdout
     lines = reader.readlines()
-    disassembler = disassembler_cls()
+    labels = {}
+    disassembler = Disassembler(labels)
     program = disassembler.disassemble(lines)
+
+    # insert the labels into the program
+    label = disassembler.labels.copy()
+    for lab, position in label.items():
+        program.insert(position, lab+":")
+
     for instruction in program:
         print(instruction, file=writer)
 
 
 if __name__ == "__main__":
-    main(Disassembler)
+    main()
