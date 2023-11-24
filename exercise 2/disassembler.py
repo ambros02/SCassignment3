@@ -20,12 +20,16 @@ class Disassembler:
             return f"{code} R{str(reg)}"
         elif fmt == "rr":
             reg1 = int(arg1, 16)
-            reg2 = int(arg1, 16)
+            reg2 = int(arg2, 16)
             return f"{code} R{str(reg1)} R{str(reg2)}"
         elif fmt == "rv":
-            reg = int(arg1, 16)
-            value = int(arg2, 16)
-            return f"{code} R{str(reg)} {str(value)}"
+            if code == ("bne" or "beq"):
+                reg = int(arg1, 16)c
+                return f"{code} R{str(reg)}"
+            else:
+                reg = int(arg1, 16)
+                value = int(arg2, 16)
+                return f"{code} R{str(reg)} {str(value)}"
 
     def _get_op(self, op):
         for name, op_info in OPS.items():
