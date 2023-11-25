@@ -54,7 +54,6 @@ def main():
     disassembler = Disassembler(labels)
     program = disassembler.disassemble(lines)
 
-    # insert the labels into the program
     label = disassembler.labels.copy()
     for lab, position in label.items():
         program.insert(position, lab+":")
