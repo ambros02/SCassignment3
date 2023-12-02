@@ -8,18 +8,13 @@ class VirtualMachineExtend(VirtualMachineStep):
     # [init]
     def __init__(self, reader=input, writer=sys.stdout):
         super().__init__(reader, writer)
+
         self.handlers = {
-            "d": self._do_disassemble,
-            "dis": self._do_disassemble,
-            "i": self._do_ip,
+            "disassemble": self._do_disassemble,
             "ip": self._do_ip,
-            "m": self._do_memory,
             "memory": self._do_memory,
-            "q": self._do_quit,
             "quit": self._do_quit,
-            "r": self._do_run,
             "run": self._do_run,
-            "s": self._do_step,
             "step": self._do_step,
         }
     # [/init]
@@ -33,10 +28,18 @@ class VirtualMachineExtend(VirtualMachineStep):
                 command = self.read(f"{addr:06x} [{prompt}]> ")
                 if not command:
                     continue
-                elif command not in self.handlers:
-                    self.write(f"Unknown command {command}")
+                
                 else:
-                    interacting = self.handlers[command](self.ip)
+                    possibilities = [handler for handler in self.handlers if handler.startswith(command)]
+
+                    if len(possibilities) == 0:
+                        self.write(f"Unknown command {command}")
+
+                    elif len(possibilities) > 1 and command not in possibilities:
+                        self.write(f"{command} is not unique identifying: options are: {possibilities}")
+
+                    else:
+                        interacting = self.handlers[possibilities[0]](self.ip)
             except EOFError:
                 self.state = VMState.FINISHED
                 interacting = False
