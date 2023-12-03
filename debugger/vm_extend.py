@@ -52,10 +52,31 @@ class VirtualMachineExtend(VirtualMachineStep):
 
     # [memory]
     def _do_memory(self, addr):
-        self.show()
+        args = self.read("Enter one or two addresses (hex): ").split()
+        if len(args) == 1:
+            address = int(args[0], 16)
+            self.show_memory_at_address(address)
+        elif len(args) == 2:
+            start_address = int(args[0], 16)
+            end_address = int(args[1], 16)
+            self.show_memory_range(start_address, end_address)
+        else:
+            self.write("Invalid number of arguments. Please provide one or two addresses.")
+
         return True
     # [/memory]
+    def show_memory_at_address(self, address):
+        if 0 <= address < len(self.ram):
+            self.write(f"{address:06x}: {self.ram[address]:06x}")
+        else:
+            self.write(f"Invalid address: {address:06x}")
 
+    def show_memory_range(self, start_address, end_address):
+        if 0 <= start_address < len(self.ram) and 0 <= end_address < len(self.ram):
+            for addr in range(start_address, end_address + 1):
+                self.write(f"{addr:06x}: {self.ram[addr]:06x}")
+        else:
+            self.write("Invalid start or end address.")
     def _do_quit(self, addr):
         self.state = VMState.FINISHED
         return False
