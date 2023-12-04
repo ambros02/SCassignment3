@@ -66,6 +66,9 @@ class VirtualMachineExtend(VirtualMachineStep):
     # [memory]
     def _do_memory(self, addr):
         args = self.read("Enter one or two addresses (hex): ").split()
+        if not args:
+            self.show()
+            return True
         if len(args) == 1:
             address = int(args[0], 16)
             self.show_memory_at_address(address)

@@ -13,8 +13,7 @@ OPS = {
     "bne": {"code": 9, "fmt": "rv"},  # Branch if not equal
     "prr": {"code": 10, "fmt": "r-"},  # Print register
     "prm": {"code": 11, "fmt": "r-"},  # Print memory
-    "brk": {"code": 15, "fmt": "--"},  # Breakpoint
-    "wpt": {"code": 16, "fmt": "rr"},  # Watchpoint
+    "brk": {"code": 15, "fmt": "--"}  # Breakpoint
 }
 
 OP_MASK = 0xFF  # select a single byte
