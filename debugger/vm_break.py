@@ -11,30 +11,42 @@ class VirtualMachineBreak(VirtualMachineExtend):
         self.breaks = {}
         self.watchpoints = {}
         self.handlers |= {
-            "b": self._do_add_breakpoint,
             "break": self._do_add_breakpoint,
-            "cb": self._do_clear_breakpoint,
             "clearbrk": self._do_clear_breakpoint,
-            "w": self._do_add_watchpoint,
             "watchpoint": self._do_add_watchpoint,
-            "cw": self._do_clear_watchpoint,
-            "clearwpt": self._do_clear_watchpoint,
+            "clearwpt": self._do_clear_watchpoint
         }
     # [/init]
 
     # [show]
     def show(self):
         super().show()
-        if self.breaks:
+        if self.breaks or self.watchpoints:
             self.write("-" * 6)
+            self.write("breaks")
             for key, instruction in self.breaks.items():
                 self.write(f"{key:06x}: {self.disassemble(key, instruction)}")
+            self.write("-" * 6)
+            self.write("watchpoints")
+            for key, instruction in self.watchpoints.items():
+                self.write(f"{key:06x}: {self.disassemble(key, instruction)}")
+            
     # [/show]
+
+    def check_watchpoints(self):
+        for wp in self.watchpoints:
+                if self.ram[wp] != self.watchpoints[wp]:
+                    self.watchpoints[wp] = self.ram[wp]
+                    self.write(f"watchpoint hit at address {wp}")
+                    self.interact(self.ip)
 
     # [run]
     def run(self):
         self.state = VMState.STEPPING
         while self.state != VMState.FINISHED:
+
+            
+
             instruction = self.ram[self.ip]
             op, arg0, arg1 = self.decode(instruction)
 
@@ -42,22 +54,16 @@ class VirtualMachineBreak(VirtualMachineExtend):
                 original = self.breaks[self.ip]
                 op, arg0, arg1 = self.decode(original)
                 self.interact(self.ip)
-                self.ip += 1
                 self.execute(op, arg0, arg1)
-            elif op == OPS["wpt"]["code"]:
-                addr, old_value = arg0, self.ram[arg1]
-                new_value = self.ram[addr]
-                if old_value != new_value:
-                    self.write(f"Watchpoint hit at address {addr:o6x}")
-                    self.state = VMState.FINISHED
-                    self.interact(addr)
+                self.check_watchpoints()
                 self.ip += 1
-                self.execute(op, arg0, arg1)
+
             else:
                 if self.state == VMState.STEPPING:
                     self.interact(self.ip)
-                self.ip += 1
                 self.execute(op, arg0, arg1)
+                self.check_watchpoints()
+                self.ip += 1
     # [/run]
 
     # [add brk]
@@ -83,9 +89,7 @@ class VirtualMachineBreak(VirtualMachineExtend):
         if addr in self.watchpoints:
             self.write(f"Watchpoint already set at address {addr:06x}")
             return True
-        original_value = self.ram[addr]
-        self.watchpoints[addr] = original_value
-        self.write(f"Watchpoint set at address {addr:06x}, original value: {original_value:06x}")
+        self.watchpoints[addr] = self.ram[addr]
         return True
 
     # [/add wpt]
