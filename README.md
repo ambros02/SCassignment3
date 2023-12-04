@@ -40,7 +40,6 @@ To decrement the value of a register by one we do the same thing like the increm
 <h3>4.1 Show Memory Range</h3>
 <p>NEEDS TO BE DONE</p>
 <h3>4.2 Breakpoint Addresses</h3>
-<p>NEEDS TO BE DONE</p>
 <h3>4.3 Command Completion</h3>
 
 <h3>4.4 Watchpoints</h3>
