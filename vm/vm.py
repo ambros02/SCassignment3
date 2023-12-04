@@ -86,6 +86,16 @@ class VirtualMachine:
                 print(self.prompt, self.reg[arg0])
             elif op == OPS["prm"]["code"]:
                 print(self.prompt, self.ram[self.reg[arg0]])
+                # Implementation of Increment and Decrement functions
+            elif op == OPS["inc"]["code"]:
+                self.reg[arg0] += 1
+            elif op == OPS["dec"]["code"]:
+                self.reg[arg0] -= 1
+            # Implementation of Swap
+            elif op == OPS["swp"]["code"]:
+                temp = self.reg[arg0]
+                self.reg[arg0] = self.reg[arg1]
+                self.reg[arg1] = temp
             # [/skip]
             else:
                 assert False, f"Unknown op {op:06x}"
