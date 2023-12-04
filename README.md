@@ -55,7 +55,9 @@ to get a folder containing an index.html which will display the report info</p>
 <h3>4.1 Show Memory Range</h3>
 
 <h3>4.2 Breakpoint Addresses</h3>
+<p>This Implementation was not only made for breakpoint addresses but more general for all commands. Just specify the addresses after the command, sepperated by single whitespaces e.g. break 2 3 will create a breakpoint at address 2 and 3. However it is in the programmers responsibility to use correct addresses e.g. in the range of the program.</p>
 
 <h3>4.3 Command Completion</h3>
+<p>From the input of the user all handlers that start with the specified string are fetched. If there is only one handle it will execute. If there are multiple options a list of the possible matches is returned and the user may try again. This however implies that if a file is run all the commands must be uniquely identifying a handler or the program will crash.</p>
 
 <h3>4.4 Watchpoints</h3>
