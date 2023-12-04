@@ -29,7 +29,7 @@ class VirtualMachineExtend(VirtualMachineStep):
                 if not command:
                     continue
                 
-                else:
+                else: 
                     possibilities = [handler for handler in self.handlers if handler.startswith(command)]
 
                     if len(possibilities) == 0:
