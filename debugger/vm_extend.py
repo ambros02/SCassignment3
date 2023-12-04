@@ -9,6 +9,7 @@ class VirtualMachineExtend(VirtualMachineStep):
     def __init__(self, reader=input, writer=sys.stdout):
         super().__init__(reader, writer)
 
+        #handlers only as full name since interact will take care of the rest.
         self.handlers = {
             "disassemble": self._do_disassemble,
             "ip": self._do_ip,
@@ -29,8 +30,10 @@ class VirtualMachineExtend(VirtualMachineStep):
                 if not command:
                     continue
                 
-                else: 
-                    possibilities = [handler for handler in self.handlers if handler.startswith(command)]
+                else:
+                    #find possible matches for the command and split it from ids
+                    com, *ip_spec = command.split(" ") 
+                    possibilities = [handler for handler in self.handlers if handler.startswith(com)]
 
                     if len(possibilities) == 0:
                         self.write(f"Unknown command {command}")
@@ -39,7 +42,12 @@ class VirtualMachineExtend(VirtualMachineStep):
                         self.write(f"{command} is not unique identifying: options are: {possibilities}")
 
                     else:
-                        interacting = self.handlers[possibilities[0]](self.ip)
+                        if ip_spec:
+                            ip_spec = [int(ip) for ip in ip_spec]
+                            for ip_s in ip_spec:
+                                interacting = self.handlers[possibilities[0]](ip_s)
+                        else:
+                            interacting = self.handlers[possibilities[0]](self.ip)
             except EOFError:
                 self.state = VMState.FINISHED
                 interacting = False
