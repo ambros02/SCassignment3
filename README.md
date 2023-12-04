@@ -27,11 +27,11 @@
 
 <h4>Run Tests<h4>
 <p>To run all tests navigate to the exercise_1 directory and use the command: <br>
-    -pytest<br></p>
+>>>pytest<br></p>
 
 <h4>Test covergage</h4>
 <p>To gain a test coverage report navigate to the exercise_1 directory and use the command:<br>
-    -pytest --cov --cov-branch --cov-report=html.'name'<br>
+>>>pytest --cov --cov-branch --cov-report=html.'name'<br>
 to get a folder containing an index.html which will display the report info</p>
 
 <h2>2. Disassembler</h2>
