@@ -51,20 +51,10 @@ class Assembler:
             )
 
         elif fmt == "rv":
-            print(tokens)
-            print("_val() result:")
-            print(self._val(args[1], labels))
-
-            print("_reg() result:")
-            print(self._reg(args[0]))
-
-
             tmp = self._combine(
                 self._val(args[1], labels),
                 self._reg(args[0]), code
             )
-            print(hex(tmp))
-            print()
             return self._combine(
                 self._val(args[1], labels),
                 self._reg(args[0]), code
