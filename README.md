@@ -38,7 +38,8 @@ To decrement the value of a register by one we do the same thing like the increm
 <h2>4. New features - Debugger</h2>
 
 <h3>4.1 Show Memory Range</h3>
-<p></p>
+<p> We changed the _do_memory method in the vm_extend.py file and added two new methods: show_memory_at_address and show_memory_range. The _do_memory method uses self.read to prompt the user to enter one or two addresses. If the user only entered a single address, the we convert it to an interger and call the show_memory_at_address method with the given address. If the users entered two addresses (start and end address), we convert both to interger and call show_method_range. For any other input we give an error message back. show_memory_at_address displays the content of the memory within the specified address. show_memory_range displays the content of the memory within the specified address range. 
+</p>
 <h3>4.2 Breakpoint Addresses</h3>
 <h3>4.3 Command Completion</h3>
 
