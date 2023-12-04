@@ -95,7 +95,6 @@ def test_out_of_memory():
 
 def test_instruction_not_found():
     #maximum code that exists is 15 -> this one is 22 = 16 + 6
-    program = ['161616']
-    program = [int(line,16) for line in program]
+    file_name = "unknown_operation.mx"
     with pytest.raises(Exception):
-        execute_vm(program)
+        execute_vm(file_name)
