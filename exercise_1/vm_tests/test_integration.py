@@ -24,7 +24,7 @@ def parent_dir():
 
 
 def test_integration_assembler(parent_dir):
-
+    #capture the output of the assembler and compare it to the actual handcalculated file integration.mx
     output = StringIO()
     original_flow = sys.stdout
     sys.stdout = output
@@ -41,7 +41,7 @@ def test_integration_assembler(parent_dir):
 
 
 def test_integration_vm(parent_dir):
-    #will print the show and reg to the file
+    #will put the output of the show function into a file and compare with the hand calculated expected
     expected = ["R000000 = 000003","R000001 = 000002","R000002 = 000000","R000003 = 000000","000000:   010002  020102  010006  00000a","000004:   000001  000000  000000  000000"]
     location = os.path.join(parent_dir,"test_files","results.txt")
 
