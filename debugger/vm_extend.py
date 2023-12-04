@@ -16,7 +16,7 @@ class VirtualMachineExtend(VirtualMachineStep):
             "memory": self._do_memory,
             "quit": self._do_quit,
             "run": self._do_run,
-            "step": self._do_step,
+            "step": self._do_step
         }
     # [/init]
 
@@ -42,6 +42,8 @@ class VirtualMachineExtend(VirtualMachineStep):
                         self.write(f"{command} is not unique identifying: options are: {possibilities}")
 
                     else:
+                        if len(possibilities) > 1:
+                            possibilities = [command]
                         if ip_spec:
                             ip_spec = [int(ip) for ip in ip_spec]
                             for ip_s in ip_spec:
