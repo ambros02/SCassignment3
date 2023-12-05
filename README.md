@@ -21,7 +21,7 @@
 
 
 <h4>Coverage</h4>
-<p>The tests have a total branch coverage of 97% over the files. Missing are the if __name__ == __main__ statement which should not be triggered, since they are being imported and the elif statement in the assembler which checks if the format is -rv never evaluates to false since it is the last possbile option. If this would evaluate to false, a programmer made a mistake in the architecture file by introducing another format.</p>
+<p>The tests have a total branch coverage of 97% over the files. Missing are the if __name__ == __main__ statement which should not be triggered, since they are being imported and the elif statement in the assembler which checks if the format is -rv never evaluates to false since it is the last possbile option. If this would evaluate to false, a programmer made a mistake in the architecture file by introducing another format. Also the added functionalities like inc, dec and swp are not yet tested.</p>
 
 <h3>Use</h3>
 
