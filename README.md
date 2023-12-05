@@ -99,8 +99,7 @@ To decrement the value of a register by one we do the same thing like the increm
 <h3>4.4 Watchpoints</h3>
 <p>In the architecture.py a new instruction 'wpt' for watchpoints was added. In the vm_break file a dictionary for the
 the watchpoints was needed. It stores the memory addresses of the watchpoints and their original value. Also in the 
-handlers dictionary the handlers for adding and clearing watchpoints were implemented. In the run method, if a 
-watchpoint instruction is encountered, it checks if the value at the specified address has changed or not. If there was 
-a change, it sets the VMState to FINISHED which halts the VM and lets the user interact. There is a method to create 
+handlers dictionary the handlers for adding and clearing watchpoints were implemented. In the run method it checks if a value at the watchpoint address has changed or not. If there was 
+a change, it halts the VM and lets the user interact. There is a method to create 
 watchpoints which adds them to the dictionary with the original value and the clear method deletes it from the 
 dictionary.</p>
