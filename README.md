@@ -82,7 +82,7 @@ To decrement the value of a register by one we do the same thing as the incremen
 <p>We wrote an example_3_2.as file with the instruction to swap the values of two given registers. We used the "prr" instruction to print the values out to make it visible if the swap worked.
 </p>
 <h3>3.3 Reverse array in place</h3>
-<p>NEEDS TO BE DONE
+<p>We set R0 as the starting point of the array, R1 for the size of the array, R2 as the end point of the array and R3 as a temp pointer for the swapping. The size of the array is given by us. First we need to calculate the end pointer and we do this by adding the starting address to the length. For the last element we need to decrement once. Now comes the loop. The loop is built like in the fill_array file in the book. We used the ldr instruction to load the value of the start and end of the array into R3 and R1 and then str to store the value from R1 and R3 in the start and in the end of the array. The first swapping is completed now and we need to increment the start pointer and decrement the end pointer and calculate the remaining lenght again. If the array has an uneven length the end length would be 0 and we end the loop. In an even array the end length would be -1 so we increment to check again if R1 equals 0 and then end the loop. Otherwise the loop continious.
 </p>
 
 <h2>4. New features - Debugger</h2>
