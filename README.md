@@ -97,10 +97,6 @@ To decrement the value of a register by one we do the same thing like the increm
 <p>From the input of the user all handlers that start with the specified string are fetched. If there is only one handle it will execute. If there are multiple options a list of the possible matches is returned and the user may try again. This however implies that if a file is run all the commands must be uniquely identifying a handler or the program will crash.</p>
 
 <h3>4.4 Watchpoints</h3>
-<p>In the architecture.py a new instruction 'wpt' for watchpoints was added. In the vm_break file a dictionary for the
-the watchpoints was needed. It stores the memory addresses of the watchpoints and their original value. Also in the 
-handlers dictionary the handlers for adding and clearing watchpoints were implemented. In the run method, if a 
-watchpoint instruction is encountered, it checks if the value at the specified address has changed or not. If there was 
-a change, it sets the VMState to FINISHED which halts the VM and lets the user interact. There is a method to create 
-watchpoints which adds them to the dictionary with the original value and the clear method deletes it from the 
-dictionary.</p>
+<p>In the vm_break file a dictionary for the the watchpoints is used to keep track of them. It uses the memory addresses of the watchpoints as keys and their value as value. Also in the 
+handlers dictionary the handlers for adding and clearing watchpoints were implemented. In the run method, after an operation is executed the progranm checks all watched values, against the actual values and tells the user which one and lets the iser interact in the same position. 
+.</p>
