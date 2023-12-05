@@ -1,41 +1,36 @@
-hlt        # Halt program
+#R0 Starting point of array
+#R1 Size of the array
+#R2 End point of array
+#R3 Temporary pointer for swapping
 
-# Load base address of the array into R0
-ldc R0 99  
+ldc R0 @data        # Fetch the starting address of @data
+ldc R1 6            # length is given
+cpy R2 R1           #copy length of array from R1 to R2
+add R2 R0           # end pointer
+dec R2              #last element of array is one less than end pointer
 
-# Load length of the array into R1
-ldr R0 R1  
+loop:
+    ldr R3 R0       # load value from start of array into R3
+    ldr R1 R2       # load value from end of array into R1
+    str R1 R0       # store value from R1 at start of array
+    str R3 R2       # store value from R3 at end of array
 
-# Calculate the last index of the array
-dec R1     
+    inc R0          # new start of array since we swapped the previous first
+    dec R2          # new end of array since we swapped the previous end
 
-# Loop to reverse the array
-loop_start:
-    # Check if the current index is greater than or equal to the last index
-    beq R0 99
+    cpy R1 R2       # copy end pointer to R1
+    sub R1 R0       # sub the R0 from R1 to get the remaining lenght
 
-    # Load the values at the current and last indices
-    ldr R0 R2  # Load value at current index to R2
-    ldr R1 R3  # Load value at last index to R3
+    beq R1 @end     # if R1 is 0 finished swapping
 
-    # Swap values in R2 and R3
-    swp R2 R3  
+    inc R1          # inc R1 in case of even number of elements in array
+    beq R1 @end     # if R1 is 0 finished swapping
 
-    # Store the swapped values back to the array
-    str R2 R0  
+    bne R1 @loop    # if R1 is not 0 continue loop
 
-    # Increment current index
-    add R0 R1 
+# Label to jump out of the loop
+end:
+hlt
 
-    # Decrement last index
-    sub R0 R1 
-
-    # Repeat the loop
-    bne R0 99 
-
-# Print the reversed array
-prr R0      
-
-# Print memory
-prm R0 99    
-
+.data
+data: 6
